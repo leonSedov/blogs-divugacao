@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otimizador de Conteúdo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            padding: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 200px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            line-height: 1.5;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #bdc3c7;
+            font-style: italic;
+        }
+
+        button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        button:hover:not(:disabled) {
+            background: #34495e;
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .status-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Otimizador de Conteúdo</h1>
+        <div class="subtitle">Transforme suas ideias em artigos completos com IA</div>
+
+        <div class="form-group">
+            <label for="texto">📝 Digite seu texto base:</label>
+            <textarea id="texto" placeholder="Ex: ideias sobre marketing digital, dicas de produtividade, ou qualquer tópico que queira transformar em um artigo..."></textarea>
+        </div>
+
+        <button id="enviarBtn">🚀 Enviar para geração do artigo</button>
+
+        <div id="status" class="status-message"></div>
+
+        <div class="footer">
+            ⚡ O texto será enviado para IA e você receberá um artigo otimizado em breve.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textoTextarea = document.getElementById('texto');
+            const enviarBtn = document.getElementById('enviarBtn');
+            const statusDiv = document.getElementById('status');
+
+            // Webhook URL
+            const webhookUrl = 'https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook/blog';
+
+            // Função para exibir mensagem de status
+            function showMessage(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = 'status-message ' + type; // success, error, info
+            }
+
+            // Função para limpar mensagem
+            function clearMessage() {
+                statusDiv.textContent = '';
+                statusDiv.className = 'status-message';
+            }
+
+            // Função para validar se o texto não está vazio
+            function isValidText(text) {
+                return text && text.trim().length > 0;
+            }
+
+            // Evento de clique no botão
+            enviarBtn.addEventListener('click', async function() {
+                const texto = textoTextarea.value;
+
+                // Validação
+                if (!isValidText(texto)) {
+                    showMessage('Por favor, digite algum texto antes de enviar.', 'error');
+                    return;
+                }
+
+                // Desabilitar botão e mostrar status de envio
+                enviarBtn.disabled = true;
+                showMessage('Enviando texto para o otimizador... Aguarde.', 'info');
+
+                // Preparar payload
+                const payload = {
+                    text: texto
+                    // Você pode adicionar mais campos se o webhook esperar algo específico
+                    // Ex: "content": texto, ou "message": texto
+                };
+
+                try {
+                    // Enviar requisição POST para o webhook
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            // Alguns webhooks podem exigir outros headers, mas vamos manter simples
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    // Verificar se a resposta foi bem-sucedida
+                    if (response.ok) {
+                        // Tenta ler o corpo da resposta se houver, mas não é obrigatório
+                        let responseData = null;
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/json')) {
+                            responseData = await response.json();
+                        } else {
+                            responseData = await response.text();
+                        }
+
+                        showMessage('✅ Texto enviado com sucesso! A IA está gerando seu artigo. Você será redirecionado/notificado em breve (conforme fluxo do n8n).', 'success');
+                        console.log('Resposta do webhook:', responseData);
+                    } else {
+                        // Se a resposta não for ok, exibir erro com status
+                        const errorText = await response.text();
+                        showMessage(`❌ Erro ao enviar: ${response.status} - ${response.statusText}. Detalhes: ${errorText}`, 'error');
+                        console.error('Erro no webhook:', response.status, errorText);
+                    }
+                } catch (error) {
+                    // Erro de rede ou CORS
+                    console.error('Erro na requisição:', error);
+                    showMessage(`❌ Falha na conexão com o servidor. Verifique sua internet ou se o webhook está acessível. Detalhes: ${error.message}`, 'error');
+                } finally {
+                    // Reabilitar o botão após um pequeno atraso para evitar spam
+                    setTimeout(() => {
+                        enviarBtn.disabled = false;
+                    }, 2000); // 2 segundos de cooldown
+                }
+            });
+
+            // Permitir enviar com Ctrl+Enter (atalho)
+            textoTextarea.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    enviarBtn.click();
+                }
+            });
+
+            // Limpar mensagem de erro quando começar a digitar (opcional)
+            textoTextarea.addEventListener('input', function() {
+                if (statusDiv.classList.contains('error')) {
+                    clearMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
