@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kayo Melo Tributário — Direito Fiscal & Planejamento Tributário</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       VARIÁVEIS — Âmbar Neon + Grafite Profundo
+       Dark  → #0e0900 (quase preto aquecido) + âmbar #ffaa00
+       Light → #fdf8f0 (creme) + âmbar escuro #b36a00
+    ============================================================ */
+    :root { --tr: background-color .5s ease, color .5s ease, border-color .5s ease; }
+
+    [data-theme="dark"] {
+      --bg0:  #0b0900;
+      --bg1:  #100d00;
+      --bgC:  #141000;
+      --bgCh: #1c1600;
+      --bgN:  rgba(11,9,0,.95);
+      --t1:   #fff8e8;
+      --t2:   #b89a60;
+      --tm:   #4a3c18;
+      --neo:  #ffaa00;
+      --neoD: #7a5000;
+      --neoB: #ffd060;
+      --bS:   rgba(255,170,0,.07);
+      --bC:   rgba(255,170,0,.13);
+      --bG:   rgba(255,170,0,.22);
+      --shC:  0 2px 28px rgba(0,0,0,.8), 0 1px 0 rgba(255,170,0,.06);
+      --shH:  0 14px 50px rgba(0,0,0,.9), 0 0 0 1px rgba(255,170,0,.32), 0 0 28px rgba(255,170,0,.1);
+      --heroG:radial-gradient(ellipse 70% 55% at 50% 45%, rgba(180,100,0,.2) 0%, transparent 65%),
+              radial-gradient(ellipse 35% 35% at 80% 20%, rgba(255,170,0,.06) 0%, transparent 50%),
+              linear-gradient(180deg,#0b0900 0%,#100d00 100%);
+      --nOp:  .04;
+      --tagB: rgba(255,170,0,.1);
+      --tagC: #ffaa00;
+      --fbG:  #141000;
+      --fbB:  rgba(255,170,0,.28);
+      --nglow:0 0 14px rgba(255,170,0,.55), 0 0 36px rgba(255,170,0,.22);
+    }
+
+    [data-theme="light"] {
+      --bg0:  #fdf8f0;
+      --bg1:  #f5edd8;
+      --bgC:  #fffdf7;
+      --bgCh: #ffffff;
+      --bgN:  rgba(253,248,240,.96);
+      --t1:   #1a0e00;
+      --t2:   #6b4a18;
+      --tm:   #b89060;
+      --neo:  #b36a00;
+      --neoD: #7a4800;
+      --neoB: #d48820;
+      --bS:   rgba(120,72,0,.08);
+      --bC:   rgba(120,72,0,.14);
+      --bG:   rgba(140,88,0,.2);
+      --shC:  0 2px 20px rgba(80,40,0,.1);
+      --shH:  0 12px 40px rgba(80,40,0,.18), 0 0 0 1px rgba(140,88,0,.25);
+      --heroG:radial-gradient(ellipse 70% 55% at 50% 45%, rgba(180,100,0,.09) 0%, transparent 65%),
+              linear-gradient(180deg,#fdf8f0 0%,#f5edd8 100%);
+      --nOp:  .02;
+      --tagB: rgba(140,88,0,.09);
+      --tagC: #b36a00;
+      --fbG:  #fffdf7;
+      --fbB:  rgba(140,88,0,.28);
+      --nglow:none;
+    }
+
+    /* ============================================================ RESET */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg0);color:var(--t1);
+         transition:var(--tr);overflow-x:hidden;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:var(--nOp);mix-blend-mode:overlay}
+    a{color:inherit;text-decoration:none}
+    ul{list-style:none}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg0)}
+    ::-webkit-scrollbar-thumb{background:var(--neoD);border-radius:3px}
+    [data-theme="dark"] ::-webkit-scrollbar-thumb{box-shadow:0 0 6px rgba(255,170,0,.4)}
+
+    /* ============================================================ NAVBAR */
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;
+      backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+      background:var(--bgN);border-bottom:1px solid var(--bS);
+      transition:var(--tr),box-shadow .3s}
+    .navbar.scrolled{box-shadow:0 4px 40px rgba(0,0,0,.65),0 1px 0 rgba(255,170,0,.1)}
+    .nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;height:72px;
+      display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:2rem}
+
+    .nav-logo{display:flex;align-items:center;gap:.85rem}
+    .km-mark{width:42px;height:42px;flex-shrink:0}
+    .km-mark svg{width:100%;height:100%}
+    [data-theme="dark"] .km-mark svg path{filter:drop-shadow(0 0 3px rgba(255,170,0,.4))}
+
+    .logo-text{display:flex;flex-direction:column;line-height:1.1}
+    .logo-name{font-family:'DM Sans',sans-serif;font-size:.98rem;font-weight:700;
+      letter-spacing:.12em;text-transform:uppercase;color:var(--t1);transition:color .5s}
+    .logo-sub{font-size:.58rem;font-weight:600;letter-spacing:.22em;
+      text-transform:uppercase;color:var(--neo);transition:color .5s}
+
+    .nav-links{display:flex;align-items:center;justify-content:center;gap:.15rem}
+    .nav-links a{font-size:.77rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--t2);padding:.45rem .9rem;border-radius:5px;transition:color .3s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:5px;left:50%;
+      transform:translateX(-50%) scaleX(0);width:50%;height:1px;
+      background:var(--neo);transition:transform .3s}
+    .nav-links a:hover{color:var(--t1)}
+    .nav-links a:hover::after{transform:translateX(-50%) scaleX(1)}
+
+    .nav-actions{display:flex;align-items:center;gap:1rem}
+
+    .back-link{display:inline-flex;align-items:center;gap:.5rem;
+      font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--neo);border:1px solid var(--bG);border-radius:4px;
+      padding:.42rem .85rem;transition:all .3s;white-space:nowrap}
+    .back-link:hover{background:var(--tagB);box-shadow:var(--nglow)}
+
+    .btn-cta-nav{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:#0b0900;background:var(--neo);border:none;padding:.54rem 1.15rem;
+      border-radius:4px;cursor:pointer;transition:opacity .25s,transform .2s,box-shadow .2s;
+      white-space:nowrap}
+    [data-theme="light"] .btn-cta-nav{color:#fff;background:var(--neo)}
+    .btn-cta-nav:hover{opacity:.85;transform:translateY(-1px);box-shadow:var(--nglow)}
+
+    .theme-toggle{width:44px;height:24px;background:var(--bC);border:1px solid var(--bC);
+      border-radius:999px;cursor:pointer;position:relative;transition:background .4s;flex-shrink:0}
+    .theme-toggle::after{content:'';position:absolute;top:2px;left:2px;
+      width:18px;height:18px;background:var(--neo);border-radius:50%;
+      transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+    [data-theme="light"] .theme-toggle::after{transform:translateX(20px)}
+
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--t1);border-radius:2px;transition:all .3s}
+
+    .mobile-nav{display:none;position:fixed;inset:0;top:72px;background:var(--bg0);
+      z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+    .mobile-nav.open{display:flex}
+    .mobile-nav a{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;
+      color:var(--t1);transition:color .3s}
+    .mobile-nav a:hover{color:var(--neo)}
+
+    /* ============================================================ HERO */
+    .hero{min-height:100vh;padding-top:72px;display:flex;align-items:center;
+      background:var(--heroG);position:relative;overflow:hidden}
+
+    /* Padrão de linhas de dados — remete a planilhas fiscais */
+    .hero-lines{position:absolute;inset:0;pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,170,0,.035) 1px,transparent 1px);
+      background-size:100% 52px;opacity:.7}
+
+    /* Colunas verticais — remete a tabela tributária */
+    .hero-cols{position:absolute;inset:0;pointer-events:none;
+      background-image:linear-gradient(90deg,rgba(255,170,0,.025) 1px,transparent 1px);
+      background-size:120px 100%}
+
+    /* Orb âmbar */
+    .hero-orb{position:absolute;width:580px;height:580px;border-radius:50%;
+      background:radial-gradient(circle,rgba(200,100,0,.18) 0%,rgba(255,170,0,.05) 40%,transparent 70%);
+      top:50%;left:42%;transform:translate(-50%,-50%);
+      pointer-events:none;animation:orbP 9s ease-in-out infinite}
+    [data-theme="light"] .hero-orb{background:radial-gradient(circle,rgba(180,90,0,.07) 0%,transparent 70%)}
+    @keyframes orbP{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}
+                    50%{transform:translate(-50%,-50%) scale(1.2);opacity:.4}}
+
+    /* Cifrões flutuantes animados */
+    .hero-coins{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .coin{position:absolute;color:var(--neo);opacity:0;font-weight:900;
+      animation:floatCoin 14s ease-in-out infinite;font-family:'Playfair Display',serif}
+    .coin:nth-child(1){left:6%;top:18%;font-size:.9rem;animation-delay:0s}
+    .coin:nth-child(2){left:90%;top:30%;font-size:1.1rem;animation-delay:2.5s}
+    .coin:nth-child(3){left:12%;top:72%;font-size:.75rem;animation-delay:5s}
+    .coin:nth-child(4){left:78%;top:14%;font-size:1rem;animation-delay:7s}
+    .coin:nth-child(5){left:55%;top:82%;font-size:.85rem;animation-delay:9.5s}
+    .coin:nth-child(6){left:38%;top:8%;font-size:.7rem;animation-delay:12s}
+    @keyframes floatCoin{
+      0%{opacity:0;transform:translateY(24px) rotate(-10deg)}
+      20%{opacity:.28}80%{opacity:.14}
+      100%{opacity:0;transform:translateY(-50px) rotate(10deg)}}
+
+    .hero-inner{max-width:1280px;margin:0 auto;padding:6rem 2rem 4rem;
+      width:100%;display:grid;grid-template-columns:1fr 370px;gap:4rem;align-items:center}
+
+    .hero-badge{display:inline-flex;align-items:center;gap:.6rem;
+      font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--neo);border:1px solid var(--bG);border-radius:3px;
+      padding:.4rem 1rem;margin-bottom:2rem;animation:fadeUp .8s ease both}
+    .hero-dot{width:5px;height:5px;background:var(--neo);border-radius:50%;
+      animation:blink 2s ease-in-out infinite;box-shadow:var(--nglow)}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+    .hero-title{font-family:'Playfair Display',serif;
+      font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:900;line-height:1.02;
+      letter-spacing:-.025em;color:var(--t1);margin-bottom:1.5rem;
+      animation:fadeUp .8s .12s ease both}
+    .hero-title em{font-style:italic;display:block;
+      background:linear-gradient(105deg,var(--t1) 15%,var(--neo) 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      filter:drop-shadow(0 0 20px rgba(255,170,0,.32))}
+    [data-theme="light"] .hero-title em{
+      background:linear-gradient(105deg,#1a0e00 0%,var(--neo) 100%);
+      -webkit-background-clip:text;background-clip:text;filter:none}
+
+    .hero-desc{font-family:'Crimson Pro',serif;font-size:1.2rem;line-height:1.8;
+      color:var(--t2);max-width:510px;margin-bottom:2.5rem;
+      animation:fadeUp .8s .24s ease both}
+
+    /* Alerta reforma tributária */
+    .hero-alert{display:inline-flex;align-items:flex-start;gap:.85rem;
+      background:rgba(255,170,0,.07);border:1px solid var(--bG);
+      border-left:3px solid var(--neo);
+      border-radius:6px;padding:1rem 1.2rem;margin-bottom:2.5rem;
+      animation:fadeUp .8s .3s ease both;max-width:520px}
+    [data-theme="light"] .hero-alert{background:rgba(140,88,0,.06)}
+    .alert-text{font-size:.83rem;line-height:1.6;color:var(--t2)}
+    .alert-text strong{color:var(--neo);font-weight:700;display:block;
+      margin-bottom:.25rem;font-size:.85rem;letter-spacing:.02em}
+
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .38s ease both}
+
+    /* Buttons */
+    .btn-primary{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:#0b0900;background:var(--neo);border:none;padding:.9rem 2rem;
+      border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
+      transition:transform .25s,box-shadow .25s,opacity .25s}
+    [data-theme="light"] .btn-primary{color:#fff;background:var(--neo)}
+    .btn-primary:hover{opacity:.88;transform:translateY(-2px);box-shadow:var(--nglow)}
+
+    .btn-outline{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--neo);background:transparent;border:1px solid var(--bG);
+      padding:.9rem 2rem;border-radius:4px;cursor:pointer;
+      display:inline-flex;align-items:center;gap:.5rem;transition:all .25s}
+    .btn-outline:hover{background:var(--tagB);transform:translateY(-2px)}
+
+    /* Hero card */
+    .hero-card{background:var(--bgC);border:1px solid var(--bC);border-radius:10px;
+      overflow:hidden;box-shadow:var(--shC);animation:fadeRight .9s .2s ease both;
+      transition:var(--tr)}
+    .hc-img{width:100%;height:195px;
+      background:linear-gradient(145deg,#0b0900 0%,#1a1000 100%);
+      display:flex;align-items:center;justify-content:center}
+    [data-theme="light"] .hc-img{background:linear-gradient(145deg,#ead4a0 0%,#d4bc80 100%)}
+    .hc-body{padding:1.4rem}
+    .hc-tag{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--neo);background:var(--tagB);padding:.28rem .65rem;
+      border-radius:3px;display:inline-block;margin-bottom:.7rem}
+    .hc-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;
+      line-height:1.38;color:var(--t1);margin-bottom:.7rem}
+    .hc-excerpt{font-size:.83rem;line-height:1.65;color:var(--t2);margin-bottom:1.2rem}
+    .hc-meta{display:flex;align-items:center;justify-content:space-between;
+      font-size:.72rem;color:var(--tm)}
+    .hc-author{display:flex;align-items:center;gap:.5rem}
+    .av{width:26px;height:26px;border-radius:50%;background:var(--neo);color:#0b0900;
+      display:flex;align-items:center;justify-content:center;
+      font-size:.58rem;font-weight:800;letter-spacing:.04em}
+    [data-theme="light"] .av{color:#fff}
+
+    /* ============================================================ SEÇÕES */
+    section{padding:6rem 0}
+    .container{max-width:1280px;margin:0 auto;padding:0 2rem}
+    .section-header{margin-bottom:3.5rem;display:flex;align-items:flex-end;
+      justify-content:space-between;gap:2rem;flex-wrap:wrap}
+    .eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+      color:var(--neo);margin-bottom:.7rem;display:flex;align-items:center;gap:.75rem}
+    .eyebrow::before{content:'';width:22px;height:1px;background:var(--neo)}
+    .section-title{font-family:'Playfair Display',serif;
+      font-size:clamp(1.8rem,3.2vw,2.7rem);font-weight:800;line-height:1.12;color:var(--t1)}
+    .section-title em{font-style:italic;color:var(--neo)}
+    .section-link{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--neo);display:inline-flex;align-items:center;gap:.5rem;
+      border-bottom:1px solid var(--bG);padding-bottom:2px;white-space:nowrap;transition:gap .3s}
+    .section-link:hover{gap:.75rem;border-color:var(--neo)}
+
+    /* ============================================================ REFORMA TRIBUTÁRIA */
+    .reforma-sec{background:var(--bg1);transition:var(--tr);position:relative;overflow:hidden}
+    .reforma-sec::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent,var(--neo),transparent);
+      box-shadow:0 0 14px var(--neo)}
+
+    .reforma-inner{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+
+    .reforma-badge{display:inline-flex;align-items:center;gap:.5rem;
+      font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+      color:#0b0900;background:var(--neo);padding:.3rem .85rem;border-radius:3px;
+      margin-bottom:1.2rem;box-shadow:var(--nglow)}
+    [data-theme="light"] .reforma-badge{color:#fff}
+
+    .reforma-title{font-family:'Playfair Display',serif;
+      font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;line-height:1.1;
+      color:var(--t1);margin-bottom:1rem}
+    .reforma-title em{font-style:italic;color:var(--neo)}
+
+    .reforma-desc{font-family:'Crimson Pro',serif;font-size:1.1rem;line-height:1.82;
+      color:var(--t2);margin-bottom:2rem}
+
+    /* Timeline da reforma */
+    .reforma-timeline{display:flex;flex-direction:column;gap:0}
+
+    .tl-item{display:flex;gap:1.2rem;padding:1.2rem 0;
+      border-bottom:1px solid var(--bS);position:relative}
+    .tl-item:last-child{border-bottom:none}
+
+    .tl-year{font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;
+      color:var(--neo);min-width:44px;padding-top:.1rem;
+      filter:drop-shadow(0 0 6px rgba(255,170,0,.3))}
+    [data-theme="light"] .tl-year{filter:none}
+
+    .tl-dot{width:8px;height:8px;border-radius:50%;background:var(--neo);
+      flex-shrink:0;margin-top:.35rem;box-shadow:var(--nglow)}
+
+    .tl-content h4{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;
+      color:var(--t1);margin-bottom:.3rem}
+    .tl-content p{font-size:.8rem;line-height:1.6;color:var(--t2)}
+
+    /* Painel direito — métricas */
+    .reforma-panel{display:flex;flex-direction:column;gap:1rem}
+
+    .metric-card{background:var(--bgC);border:1px solid var(--bC);border-radius:10px;
+      padding:1.5rem;display:flex;align-items:center;gap:1.2rem;
+      transition:box-shadow .3s,transform .3s}
+    .metric-card:hover{box-shadow:var(--shH);transform:translateX(4px)}
+    .metric-icon{font-size:1.6rem;flex-shrink:0;
+      width:52px;height:52px;background:var(--tagB);border-radius:10px;
+      display:flex;align-items:center;justify-content:center}
+    .metric-body{}
+    .metric-num{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;
+      line-height:1;color:var(--neo);display:block;
+      filter:drop-shadow(0 0 8px rgba(255,170,0,.28))}
+    [data-theme="light"] .metric-num{filter:none}
+    .metric-label{font-size:.78rem;font-weight:600;color:var(--t2);
+      letter-spacing:.04em;margin-top:.25rem;display:block}
+    .metric-sub{font-size:.72rem;color:var(--tm);margin-top:.2rem}
+
+    /* ============================================================ FEATURED */
+    .feat-sec{background:var(--bg0);transition:var(--tr)}
+    .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;
+      border-radius:10px;overflow:hidden;border:1px solid var(--bC)}
+    .feat-main{background:var(--bgC);overflow:hidden;cursor:pointer}
+    .feat-img{width:100%;height:360px;
+      background:linear-gradient(160deg,#0b0900 0%,#1a1200 100%);
+      display:flex;align-items:center;justify-content:center;
+      transition:transform .5s;overflow:hidden}
+    [data-theme="light"] .feat-img{background:linear-gradient(160deg,#e8d09a 0%,#d4b870 100%)}
+    .feat-main:hover .feat-img{transform:scale(1.03)}
+    .feat-body{padding:1.8rem}
+    .feat-right{display:flex;flex-direction:column}
+    .feat-sub{flex:1;background:var(--bgC);padding:1.5rem;cursor:pointer;
+      border-bottom:1px solid var(--bS);transition:background .3s}
+    .feat-sub:last-child{border-bottom:none}
+    .feat-sub:hover{background:var(--bgCh)}
+    .feat-sub-img{width:100%;height:105px;border-radius:7px;overflow:hidden;margin-bottom:.9rem}
+    .feat-sub-img-in{width:100%;height:100%;display:flex;align-items:center;
+      justify-content:center;transition:transform .4s}
+    .feat-sub:hover .feat-sub-img-in{transform:scale(1.05)}
+
+    /* ============================================================ BLOG GRID */
+    .blog-sec{background:var(--bg1);transition:var(--tr)}
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    .blog-card{background:var(--bgC);border:1px solid var(--bC);border-radius:9px;
+      overflow:hidden;box-shadow:var(--shC);cursor:pointer;
+      display:flex;flex-direction:column;
+      transition:transform .35s cubic-bezier(.23,1,.32,1),box-shadow .35s,background .5s}
+    .blog-card:hover{transform:translateY(-6px);box-shadow:var(--shH)}
+    .bc-img{width:100%;height:168px;overflow:hidden}
+    .bc-img-in{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+      transition:transform .5s}
+    .blog-card:hover .bc-img-in{transform:scale(1.06)}
+
+    /* Card image themes — âmbar quente e grafite */
+    .t1{background:linear-gradient(145deg,#0b0900 0%,#1a1200 100%)}
+    .t2{background:linear-gradient(145deg,#100d00 0%,#201600 100%)}
+    .t3{background:linear-gradient(145deg,#080600 0%,#140f00 100%)}
+    .t4{background:linear-gradient(145deg,#0e0b00 0%,#1c1400 100%)}
+    .t5{background:linear-gradient(145deg,#120e00 0%,#221800 100%)}
+    .t6{background:linear-gradient(145deg,#0a0800 0%,#181200 100%)}
+    [data-theme="light"] .t1{background:linear-gradient(145deg,#e8d49a 0%,#d4bc7a 100%)}
+    [data-theme="light"] .t2{background:linear-gradient(145deg,#deca90 0%,#cab870 100%)}
+    [data-theme="light"] .t3{background:linear-gradient(145deg,#ecd8a0 0%,#d8c080 100%)}
+    [data-theme="light"] .t4{background:linear-gradient(145deg,#e4ce94 0%,#d0b874 100%)}
+    [data-theme="light"] .t5{background:linear-gradient(145deg,#e8d29c 0%,#d4ba7c 100%)}
+    [data-theme="light"] .t6{background:linear-gradient(145deg,#dcc890 0%,#c8b270 100%)}
+
+    .bc-body{padding:1.3rem;flex:1;display:flex;flex-direction:column}
+    .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.8rem}
+    .tag{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--tagC);background:var(--tagB);padding:.22rem .55rem;border-radius:3px;transition:background .3s}
+    .blog-card:hover .tag{background:rgba(255,170,0,.18)}
+    [data-theme="light"] .blog-card:hover .tag{background:rgba(140,88,0,.14)}
+    .bc-title{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:700;
+      line-height:1.4;color:var(--t1);margin-bottom:.7rem;flex:1;transition:color .3s}
+    .blog-card:hover .bc-title{color:var(--neo)}
+    .bc-excerpt{font-size:.82rem;line-height:1.65;color:var(--t2);margin-bottom:1.1rem;
+      display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .bc-footer{display:flex;align-items:center;justify-content:space-between;
+      padding-top:.9rem;border-top:1px solid var(--bS);font-size:.72rem;color:var(--tm)}
+    .bc-read{font-size:.72rem;font-weight:700;color:var(--neo);
+      display:flex;align-items:center;gap:.3rem;transition:gap .3s}
+    .blog-card:hover .bc-read{gap:.5rem}
+
+    /* ============================================================ ÁREAS */
+    .areas-sec{background:var(--bg0);transition:var(--tr)}
+    .areas-wrap{border:1px solid var(--bC);border-radius:10px;overflow:hidden}
+    .areas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+    .area-card{background:var(--bgC);padding:2rem 1.5rem;
+      border-right:1px solid var(--bS);border-bottom:1px solid var(--bS);
+      transition:background .3s}
+    .area-card:hover{background:var(--bgCh)}
+    .area-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;
+      line-height:1;color:var(--bC);margin-bottom:.85rem;transition:color .3s}
+    .area-card:hover .area-num{color:rgba(255,170,0,.2)}
+    .area-icon{font-size:1.45rem;margin-bottom:.8rem}
+    .area-title{font-family:'Playfair Display',serif;font-size:.93rem;font-weight:700;
+      color:var(--t1);margin-bottom:.52rem}
+    .area-desc{font-size:.79rem;line-height:1.65;color:var(--t2)}
+
+    /* ============================================================ CALCULADORA CTA */
+    .calc-sec{background:var(--bg1);transition:var(--tr);position:relative;overflow:hidden}
+    .calc-box{background:var(--bgC);border:1px solid var(--bC);border-radius:12px;
+      padding:3.5rem;display:grid;grid-template-columns:1fr auto;
+      gap:3rem;align-items:center;position:relative;overflow:hidden;box-shadow:var(--shC)}
+    .calc-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent,var(--neo),transparent);
+      box-shadow:0 0 12px var(--neo)}
+    /* Watermark $ */
+    .calc-box::after{content:'%';position:absolute;right:-1rem;bottom:-2rem;
+      font-family:'Playfair Display',serif;font-size:14rem;font-weight:900;
+      color:var(--neo);opacity:.04;pointer-events:none;line-height:1}
+    .calc-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;
+      color:var(--neo);margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+    .calc-eyebrow::before{content:'';width:18px;height:1px;background:var(--neo)}
+    .calc-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,2.5vw,2.2rem);
+      font-weight:900;color:var(--t1);margin-bottom:.85rem;line-height:1.15}
+    .calc-desc{font-family:'Crimson Pro',serif;font-size:1.05rem;line-height:1.75;color:var(--t2)}
+    .calc-actions{display:flex;flex-direction:column;gap:.75rem;flex-shrink:0;min-width:200px}
+
+    /* ============================================================ SOBRE */
+    .about-sec{background:var(--bg0);transition:var(--tr)}
+    .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .about-vis{position:relative}
+    .about-portrait{width:100%;aspect-ratio:4/5;max-width:380px;border-radius:10px;
+      background:linear-gradient(160deg,#0b0900 0%,#1a1400 100%);
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--bC);box-shadow:var(--shC);overflow:hidden}
+    [data-theme="light"] .about-portrait{background:linear-gradient(160deg,#e8d09a 0%,#d4bc7a 100%)}
+    .about-accent{position:absolute;bottom:-1.5rem;right:-1.5rem;
+      background:var(--neo);color:#0b0900;border-radius:8px;
+      padding:1.2rem 1.5rem;box-shadow:0 8px 32px rgba(0,0,0,.5),var(--nglow)}
+    [data-theme="light"] .about-accent{color:#fff;box-shadow:0 8px 32px rgba(80,40,0,.3)}
+    .about-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;
+      line-height:1;display:block;color:#0b0900}
+    [data-theme="light"] .about-num{color:#fff}
+    .about-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;
+      text-transform:uppercase;opacity:.85;color:#0b0900}
+    [data-theme="light"] .about-label{color:#fff}
+    .about-bio{font-family:'Crimson Pro',serif;font-size:1.1rem;line-height:1.82;
+      color:var(--t2);margin-top:1.5rem;margin-bottom:2rem}
+    .about-creds{display:flex;flex-direction:column;gap:.7rem;margin-bottom:2.5rem}
+    .cred{display:flex;align-items:flex-start;gap:.75rem;font-size:.84rem;color:var(--t2)}
+    .cred::before{content:'';width:4px;height:4px;background:var(--neo);
+      border-radius:50%;flex-shrink:0;margin-top:.5rem}
+
+    /* ============================================================ NEWSLETTER */
+    .nl-sec{background:var(--bg1);transition:var(--tr)}
+    .nl-box{background:var(--bgC);border:1px solid var(--bC);border-radius:12px;
+      padding:3.5rem;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shC)}
+    .nl-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(90deg,transparent,var(--neo),transparent);
+      box-shadow:0 0 10px var(--neo)}
+    .nl-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);
+      font-weight:800;color:var(--t1);margin-bottom:.7rem}
+    .nl-desc{font-size:1rem;color:var(--t2);margin-bottom:2rem}
+    .nl-form{display:flex;gap:.75rem;max-width:460px;margin:0 auto}
+    .nl-input{flex:1;font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--t1);
+      background:var(--bg1);border:1px solid var(--bC);border-radius:4px;
+      padding:.85rem 1.1rem;outline:none;transition:border-color .3s}
+    .nl-input:focus{border-color:var(--neo)}
+    .nl-input::placeholder{color:var(--tm)}
+
+    /* ============================================================ FOOTER */
+    footer{background:var(--bg1);border-top:1px solid var(--bS);
+      padding:4.5rem 0 2rem;transition:var(--tr)}
+    .footer-inner{max-width:1280px;margin:0 auto;padding:0 2rem}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+    .fbrand{font-family:'Crimson Pro',serif;font-size:1rem;line-height:1.75;
+      color:var(--t2);margin:1rem 0 1.5rem}
+    .fsocial{display:flex;gap:.65rem}
+    .fsoc{width:36px;height:36px;border-radius:6px;background:var(--tagB);
+      border:1px solid var(--bC);display:flex;align-items:center;justify-content:center;
+      color:var(--neo);transition:all .3s;cursor:pointer}
+    .fsoc:hover{background:var(--neo);color:#0b0900;border-color:var(--neo);box-shadow:var(--nglow)}
+    [data-theme="light"] .fsoc:hover{color:#fff}
+    .fcol-title{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;
+      letter-spacing:.16em;text-transform:uppercase;color:var(--t1);margin-bottom:1.2rem}
+    .flinks{display:flex;flex-direction:column;gap:.6rem}
+    .flinks a{font-size:.84rem;color:var(--t2);transition:color .3s}
+    .flinks a:hover{color:var(--neo)}
+    .footer-bottom{display:flex;align-items:center;justify-content:space-between;
+      padding-top:2rem;border-top:1px solid var(--bS);gap:1rem;flex-wrap:wrap}
+    .fcopy{font-size:.75rem;color:var(--tm)}
+
+    /* ============================================================ FLOATING */
+    .float-wrap{position:fixed;bottom:2rem;right:2rem;
+      display:flex;flex-direction:column;gap:.75rem;z-index:900}
+    .fbtn{width:52px;height:52px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--fbG);border:1px solid var(--fbB);
+      box-shadow:0 4px 20px rgba(0,0,0,.45);
+      transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+      position:relative;cursor:pointer;text-decoration:none}
+    .fbtn::before{content:attr(data-label);position:absolute;
+      right:calc(100% + .75rem);top:50%;transform:translateY(-50%);
+      font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:700;
+      letter-spacing:.08em;white-space:nowrap;
+      background:var(--fbG);color:var(--t1);border:1px solid var(--fbB);
+      padding:.3rem .65rem;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s}
+    .fbtn:hover::before{opacity:1}
+    .fbtn:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+    .fw{color:#25D366}.ft{color:#0088cc}
+
+    /* ============================================================ ANIMAÇÕES */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeRight{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* ============================================================ RESPONSIVE */
+    @media(max-width:1024px){
+      .hero-inner{grid-template-columns:1fr}.hero-card{display:none}
+      .blog-grid{grid-template-columns:repeat(2,1fr)}
+      .reforma-inner{grid-template-columns:1fr}
+      .areas-grid{grid-template-columns:repeat(2,1fr)}
+      .calc-box{grid-template-columns:1fr}
+      .footer-top{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:768px){
+      .nav-links,.btn-cta-nav{display:none}
+      .hamburger{display:flex}
+      .nav-inner{grid-template-columns:auto 1fr auto auto;gap:.75rem}
+      .back-link{display:none}
+      .hero-inner{padding:4rem 1.5rem 3rem}.hero-title{font-size:2.5rem}
+      .feat-grid{grid-template-columns:1fr}
+      .blog-grid{grid-template-columns:1fr}
+      .areas-grid{grid-template-columns:1fr 1fr}
+      .about-inner{grid-template-columns:1fr}.about-vis{display:none}
+      .nl-form{flex-direction:column}
+      .footer-top{grid-template-columns:1fr;gap:2rem}
+      .footer-bottom{flex-direction:column;text-align:center}
+      section{padding:4rem 0}
+    }
+    @media(max-width:480px){
+      .areas-grid{grid-template-columns:1fr}
+      .hero-actions{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR ================================================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+
+      <a href="#" class="nav-logo">
+        <div class="km-mark">
+          <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="40" height="40" rx="1"
+                  stroke="currentColor" stroke-width="1.8" style="color:var(--t1)"/>
+            <rect x="5" y="5" width="32" height="32" rx=".5"
+                  stroke="currentColor" stroke-width=".8" style="color:var(--t1);opacity:.35"/>
+            <path d="M10 13 L10 29 M10 21 L18 13 M10 21 L18 29"
+                  stroke="currentColor" stroke-width="2.3"
+                  stroke-linecap="round" stroke-linejoin="round" style="color:var(--t1)"/>
+            <path d="M20 29 L20 13 L26 21 L32 13 L32 29"
+                  stroke="currentColor" stroke-width="2.3"
+                  stroke-linecap="round" stroke-linejoin="round" style="color:var(--t1)"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Kayo Melo</span>
+          <span class="logo-sub">Tributário</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#reforma">Reforma</a></li>
+        <li><a href="#artigos">Artigos</a></li>
+        <li><a href="#areas">Atuação</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a class="back-link" href="kayo-melo-advogados.html">← Portal Jurídico</a>
+        <button class="btn-cta-nav"
+          onclick="document.querySelector('#contato').scrollIntoView({behavior:'smooth'})">
+          Diagnóstico Fiscal
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Dark/Light"></button>
+        <div class="hamburger" id="hamburger" onclick="toggleNav()">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#inicio"   onclick="toggleNav()">Início</a>
+    <a href="#reforma"  onclick="toggleNav()">Reforma</a>
+    <a href="#artigos"  onclick="toggleNav()">Artigos</a>
+    <a href="#areas"    onclick="toggleNav()">Atuação</a>
+    <a href="#sobre"    onclick="toggleNav()">Sobre</a>
+    <a href="#contato"  onclick="toggleNav()">Contato</a>
+  </div>
+
+
+  <!-- HERO ==================================================== -->
+  <section class="hero" id="inicio">
+    <div class="hero-lines"></div>
+    <div class="hero-cols"></div>
+    <div class="hero-orb"></div>
+    <div class="hero-coins">
+      <span class="coin">R$</span>
+      <span class="coin">%</span>
+      <span class="coin">§</span>
+      <span class="coin">R$</span>
+      <span class="coin">%</span>
+      <span class="coin">§</span>
+    </div>
+
+    <div class="hero-inner container">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-dot"></span>
+          Portal Tributário Especializado
+        </div>
+
+        <h1 class="hero-title">
+          Pague Menos,<br/>
+          <em>Dentro da Lei.</em>
+        </h1>
+
+        <div class="hero-alert">
+          <div class="alert-text">
+            <strong>⚡ Reforma Tributária em vigor — sua empresa está preparada?</strong>
+            A EC 132/2023 institui o IVA Dual (CBS + IBS) e o Imposto Seletivo. O período de transição já começou. Empresas que não se planejarem pagarão mais impostos do que precisam.
+          </div>
+        </div>
+
+        <p class="hero-desc">
+          Kayo Melo Advogados — especialistas em planejamento tributário, defesa fiscal e recuperação de créditos. Reduzimos a carga tributária da sua empresa de forma legal e estratégica.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn-primary"
+            onclick="document.querySelector('#reforma').scrollIntoView({behavior:'smooth'})">
+            Entender a Reforma
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M2.5 6.5h8M6.5 2.5l4 4-4 4" stroke="currentColor"
+                    stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="btn-outline"
+            onclick="document.querySelector('#artigos').scrollIntoView({behavior:'smooth'})">
+            Ver Artigos
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero card -->
+      <div class="hero-card">
+        <div class="hc-img">
+          <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+            <!-- Ícone fiscal: documento com cifra -->
+            <rect x="18" y="8" width="54" height="74" rx="4"
+                  stroke="rgba(255,170,0,.25)" stroke-width="1.5" fill="rgba(255,170,0,.04)"/>
+            <rect x="24" y="8" width="42" height="12" rx="2"
+                  fill="rgba(255,170,0,.08)" stroke="rgba(255,170,0,.3)" stroke-width="1"/>
+            <line x1="28" y1="32" x2="62" y2="32" stroke="rgba(255,170,0,.35)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="28" y1="42" x2="62" y2="42" stroke="rgba(255,170,0,.28)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="28" y1="52" x2="50" y2="52" stroke="rgba(255,170,0,.22)" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Cifra R$ -->
+            <text x="34" y="74" font-family="serif" font-size="16" font-weight="900"
+                  fill="rgba(255,170,0,.55)">R$</text>
+          </svg>
+        </div>
+        <div class="hc-body">
+          <span class="hc-tag">Urgente</span>
+          <h3 class="hc-title">Reforma Tributária 2024–2033: O Que Muda para Sua Empresa</h3>
+          <p class="hc-excerpt">O IVA Dual substitui cinco tributos. Veja o cronograma completo da transição e como se preparar para não ser pego de surpresa pelo novo sistema.</p>
+          <div class="hc-meta">
+            <div class="hc-author">
+              <div class="av">KM</div>
+              <span>Kayo Melo Advogados</span>
+            </div>
+            <span>10 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- REFORMA TRIBUTÁRIA ====================================== -->
+  <section class="reforma-sec" id="reforma">
+    <div class="container">
+      <div class="reforma-inner">
+
+        <!-- Esquerda: texto + timeline -->
+        <div class="reveal">
+          <div class="reforma-badge">⚡ EC 132/2023</div>
+          <h2 class="reforma-title">
+            A Maior Reforma<br/>
+            <em>Fiscal em 35 Anos</em>
+          </h2>
+          <p class="reforma-desc">
+            A Reforma Tributária aprovada em 2023 representa a maior mudança no sistema fiscal brasileiro desde a Constituição de 1988. PIS, COFINS, IPI, ICMS e ISS serão substituídos pelo IVA Dual. Entenda o cronograma e seus impactos.
+          </p>
+
+          <div class="reforma-timeline">
+            <div class="tl-item">
+              <span class="tl-year">2026</span>
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <h4>Início da CBS e IBS</h4>
+                <p>Cobrança simbólica de 0,9% de CBS e 0,1% de IBS para testes. PIS e COFINS reduzidos na mesma proporção.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <span class="tl-year">2027</span>
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <h4>Extinção do PIS e COFINS</h4>
+                <p>CBS começa a vigorar plenamente. IPI zerado para produtos sem similar nacional. Imposto Seletivo entra em vigor.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <span class="tl-year">2029–2032</span>
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <h4>Transição ICMS e ISS</h4>
+                <p>Redução gradual de 10% ao ano do ICMS e ISS com aumento proporcional do IBS. Período crítico para planejamento.</p>
+              </div>
+            </div>
+            <div class="tl-item">
+              <span class="tl-year">2033</span>
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <h4>Sistema Novo Pleno</h4>
+                <p>ICMS e ISS extintos. IVA Dual (CBS + IBS) operando integralmente. Novo regime consolidado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direita: métricas -->
+        <div class="reforma-panel reveal">
+          <div class="metric-card">
+            <div class="metric-icon">📊</div>
+            <div class="metric-body">
+              <span class="metric-num" data-target="5">5</span>
+              <span class="metric-label">Tributos Extintos</span>
+              <span class="metric-sub">PIS, COFINS, IPI, ICMS e ISS → CBS + IBS</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">⏳</div>
+            <div class="metric-body">
+              <span class="metric-num">8 anos</span>
+              <span class="metric-label">Período de Transição</span>
+              <span class="metric-sub">2025 a 2033 — janela crítica para planejamento</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">💡</div>
+            <div class="metric-body">
+              <span class="metric-num">~27,5%</span>
+              <span class="metric-label">Alíquota IVA Estimada</span>
+              <span class="metric-sub">Uma das mais altas do mundo — planejamento é essencial</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon">🔄</div>
+            <div class="metric-body">
+              <span class="metric-num">+R$150bi</span>
+              <span class="metric-label">Créditos a Recuperar</span>
+              <span class="metric-sub">Estimativa de créditos tributários ainda não aproveitados</span>
+            </div>
+          </div>
+          <div style="margin-top:.5rem;">
+            <button class="btn-primary" style="width:100%;justify-content:center;">
+              Avaliar Impacto na Minha Empresa
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ARTIGOS EM DESTAQUE ===================================== -->
+  <section class="feat-sec" id="artigos">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="eyebrow">Em Destaque</div>
+          <h2 class="section-title">Análises <em>Recentes</em></h2>
+        </div>
+        <a href="#" class="section-link">
+          Ver todos
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2.5 6.5h8M6.5 2.5l4 4-4 4" stroke="currentColor"
+                  stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="feat-grid reveal">
+        <div class="feat-main">
+          <div class="feat-img">
+            <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+              <rect x="10" y="10" width="70" height="70" rx="3"
+                    stroke="rgba(255,170,0,.2)" stroke-width="1.5" fill="rgba(255,170,0,.03)"/>
+              <!-- Gráfico de barras -->
+              <rect x="20" y="55" width="10" height="20" rx="1" fill="rgba(255,170,0,.2)" stroke="rgba(255,170,0,.4)" stroke-width="1"/>
+              <rect x="35" y="40" width="10" height="35" rx="1" fill="rgba(255,170,0,.3)" stroke="rgba(255,170,0,.5)" stroke-width="1"/>
+              <rect x="50" y="28" width="10" height="47" rx="1" fill="rgba(255,170,0,.45)" stroke="rgba(255,170,0,.7)" stroke-width="1.5"/>
+              <rect x="65" y="18" width="10" height="57" rx="1" fill="rgba(255,170,0,.6)" stroke="rgba(255,170,0,.9)" stroke-width="1.5"/>
+              <line x1="15" y1="75" x2="80" y2="75" stroke="rgba(255,170,0,.3)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="feat-body">
+            <div class="tags">
+              <span class="tag">Reforma Tributária</span>
+              <span class="tag">IVA</span>
+              <span class="tag">Planejamento</span>
+            </div>
+            <h3 class="bc-title" style="font-size:1.18rem;margin-bottom:.8rem;">
+              CBS, IBS e Imposto Seletivo: Guia Completo Para Empresas se Adaptarem à Reforma Tributária
+            </h3>
+            <p class="bc-excerpt" style="margin-bottom:1rem;">
+              Com a alíquota estimada do IVA Dual em torno de 27,5%, o Brasil terá um dos maiores IVAs do mundo. Entenda como estruturar sua empresa para minimizar o impacto e aproveitar os créditos disponíveis durante a transição.
+            </p>
+            <div class="bc-footer">
+              <div class="hc-author">
+                <div class="av">KM</div>
+                <div>
+                  <div style="font-size:.78rem;color:var(--t1);font-weight:600;">Kayo Melo Advogados</div>
+                  <div style="font-size:.7rem;color:var(--tm);">20 Jun 2025</div>
+                </div>
+              </div>
+              <span class="bc-read">Ler artigo →</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-right">
+          <div class="feat-sub">
+            <div class="feat-sub-img">
+              <div class="feat-sub-img-in t2">
+                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                  <circle cx="19" cy="19" r="15" stroke="rgba(255,170,0,.35)" stroke-width="1.5"/>
+                  <text x="10" y="24" font-family="serif" font-size="13" font-weight="900" fill="rgba(255,170,0,.6)">R$</text>
+                </svg>
+              </div>
+            </div>
+            <div class="tags"><span class="tag">Simples Nacional</span><span class="tag">2025</span></div>
+            <h4 class="bc-title" style="font-size:.9rem;">
+              Simples Nacional e a Reforma: O Que Muda para MEI, ME e EPP a Partir de 2026?
+            </h4>
+            <div class="bc-footer" style="padding-top:.7rem;">
+              <span style="font-size:.72rem;color:var(--tm);">Kayo Melo Adv. · 14 Jun 2025</span>
+              <span class="bc-read">Ler →</span>
+            </div>
+          </div>
+          <div class="feat-sub">
+            <div class="feat-sub-img">
+              <div class="feat-sub-img-in t3">
+                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                  <rect x="8" y="6" width="22" height="28" rx="2" stroke="rgba(255,170,0,.4)" stroke-width="1.5" fill="none"/>
+                  <line x1="13" y1="14" x2="25" y2="14" stroke="rgba(255,170,0,.4)" stroke-width="1.3" stroke-linecap="round"/>
+                  <line x1="13" y1="20" x2="25" y2="20" stroke="rgba(255,170,0,.3)" stroke-width="1.3" stroke-linecap="round"/>
+                  <line x1="13" y1="26" x2="20" y2="26" stroke="rgba(255,170,0,.2)" stroke-width="1.3" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="tags"><span class="tag">ITCMD</span><span class="tag">Herança</span></div>
+            <h4 class="bc-title" style="font-size:.9rem;">
+              ITCMD Progressivo: O Que a Reforma Muda na Tributação de Heranças e Doações
+            </h4>
+            <div class="bc-footer" style="padding-top:.7rem;">
+              <span style="font-size:.72rem;color:var(--tm);">Kayo Melo Adv. · 7 Jun 2025</span>
+              <span class="bc-read">Ler →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BLOG GRID =============================================== -->
+  <section class="blog-sec">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="eyebrow">Publicações</div>
+          <h2 class="section-title">Todos os <em>Artigos</em></h2>
+        </div>
+      </div>
+      <div class="blog-grid">
+
+        <article class="blog-card reveal">
+          <div class="bc-img"><div class="bc-img-in t1">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <rect x="10" y="8" width="30" height="36" rx="2" stroke="rgba(255,170,0,.35)" stroke-width="1.5" fill="none"/>
+              <line x1="16" y1="17" x2="34" y2="17" stroke="rgba(255,170,0,.4)" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="16" y1="23" x2="34" y2="23" stroke="rgba(255,170,0,.32)" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="16" y1="29" x2="26" y2="29" stroke="rgba(255,170,0,.22)" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="37" cy="37" r="8" fill="rgba(255,170,0,.12)" stroke="rgba(255,170,0,.5)" stroke-width="1.5"/>
+              <text x="33" y="41" font-family="serif" font-size="8" font-weight="900" fill="rgba(255,170,0,.7)">R$</text>
+            </svg>
+          </div></div>
+          <div class="bc-body">
+            <div class="tags"><span class="tag">Lucro Real</span><span class="tag">IRPJ</span></div>
+            <h3 class="bc-title">Lucro Real vs Presumido: Como Escolher o Regime Tributário Ideal para 2025</h3>
+            <p class="bc-excerpt">A escolha do regime tributário impacta diretamente a carga fiscal da empresa. Veja as vantagens e desvantagens de cada opção e como a reforma influencia essa decisão.</p>
+            <div class="bc-footer">
+              <span>Kayo Melo Adv. · 18 Jun 2025</span>
+              <span class="bc-read">Ler <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="bc-img"><div class="bc-img-in t2">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <circle cx="25" cy="25" r="20" stroke="rgba(255,170,0,.28)" stroke-width="1.5"/>
+              <path d="M15 33 L20 23 L25 28 L30 18 L35 25" stroke="rgba(255,170,0,.65)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <circle cx="35" cy="25" r="2.5" fill="rgba(255,170,0,.7)"/>
+            </svg>
+          </div></div>
+          <div class="bc-body">
+            <div class="tags"><span class="tag">Créditos</span><span class="tag">PIS/COFINS</span></div>
+            <h3 class="bc-title">Recuperação de Créditos Tributários: Como Reaver o que Sua Empresa Pagou a Mais</h3>
+            <p class="bc-excerpt">Muitas empresas têm direito a créditos de PIS, COFINS e ICMS pagos indevidamente nos últimos 5 anos. Saiba como identificar e recuperar esses valores.</p>
+            <div class="bc-footer">
+              <span>Kayo Melo Adv. · 11 Jun 2025</span>
+              <span class="bc-read">Ler <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="bc-img"><div class="bc-img-in t3">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <polygon points="25,6 44,40 6,40" stroke="rgba(255,170,0,.4)" stroke-width="1.5" fill="rgba(255,170,0,.05)"/>
+              <text x="19" y="36" font-family="serif" font-size="11" font-weight="900" fill="rgba(255,170,0,.6)">!</text>
+            </svg>
+          </div></div>
+          <div class="bc-body">
+            <div class="tags"><span class="tag">Auto de Infração</span><span class="tag">Defesa</span></div>
+            <h3 class="bc-title">Recebeu Auto de Infração da Receita Federal? Veja Como Contestar</h3>
+            <p class="bc-excerpt">O prazo para impugnar um auto de infração é de 30 dias. Com a defesa correta, é possível reduzir ou cancelar autuações fiscais indevidas nas esferas administrativa e judicial.</p>
+            <div class="bc-footer">
+              <span>Kayo Melo Adv. · 4 Jun 2025</span>
+              <span class="bc-read">Ler <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="bc-img"><div class="bc-img-in t4">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <rect x="8" y="12" width="34" height="28" rx="3" stroke="rgba(255,170,0,.35)" stroke-width="1.5" fill="none"/>
+              <rect x="16" y="8" width="18" height="8" rx="1" fill="rgba(255,170,0,.12)" stroke="rgba(255,170,0,.4)" stroke-width="1"/>
+              <line x1="14" y1="24" x2="36" y2="24" stroke="rgba(255,170,0,.3)" stroke-width="1.3"/>
+              <line x1="14" y1="30" x2="28" y2="30" stroke="rgba(255,170,0,.22)" stroke-width="1.3"/>
+            </svg>
+          </div></div>
+          <div class="bc-body">
+            <div class="tags"><span class="tag">Holding</span><span class="tag">Planejamento</span></div>
+            <h3 class="bc-title">Holding Familiar: Como Proteger Patrimônio e Reduzir ITCMD, IRPF e ITBI</h3>
+            <p class="bc-excerpt">A constituição de uma holding familiar é uma das estratégias mais eficazes de proteção patrimonial e elisão fiscal. Entenda como estruturar corretamente.</p>
+            <div class="bc-footer">
+              <span>Kayo Melo Adv. · 28 Mai 2025</span>
+              <span class="bc-read">Ler <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="bc-img"><div class="bc-img-in t5">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <circle cx="25" cy="25" r="18" stroke="rgba(255,170,0,.3)" stroke-width="1.5"/>
+              <path d="M25 12 L25 25 L34 34" stroke="rgba(255,170,0,.6)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="25" cy="25" r="3" fill="rgba(255,170,0,.65)"/>
+            </svg>
+          </div></div>
+          <div class="bc-body">
+            <div class="tags"><span class="tag">PARCELAMENTO</span><span class="tag">REFIS</span></div>
+            <h3 class="bc-title">REFIS e Parcelamento de Dívidas Fiscais: Como Negociar com a Receita em 2025</h3>
+            <p class="bc-excerpt">Empresas com dívidas tributárias podem usar programas de parcelamento para regularizar sua situação com descontos de até 100% em multas e juros. Veja as opções disponíveis.</p>
+            <div class="bc-footer">
+              <span>Kayo Melo Adv. · 20 Mai 2025</span>
+              <span class="bc-read">Ler <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <div class="bc-img"><div class="bc-img-in t6">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+              <rect x="10" y="18" width="30" height="20" rx="2" stroke="rgba(255,170,0,.38)" stroke-width="1.5" fill="rgba(255,170,0,.05)"/>
+              <rect x="18" y="12" width="14" height="10" rx="1" stroke="rgba(255,170,0,.3)" stroke-width="1.2" fill="none"/>
+              <circle cx="25" cy="28" r="4" fill="rgba(255,170,0,.18)" stroke="rgba(255,170,0,.55)" stroke-width="1.5"/>
+              <line x1="14" y1="28" x2="18" y2="28" stroke="rgba(255,170,0,.3)" stroke-width="1.2"/>
+              <line x1="32" y1="28" x2="36" y2="28" stroke="rgba(255,170,0,.3)" stroke-width="1.2"/>
+            </svg>
+          </div></div>
+          <div class="bc-body">
+            <div class="tags"><span class="tag">CARF</span><span class="tag">Recursos</span></div>
+            <h3 class="bc-title">CARF: Como Recorrer Administrativamente de Autuações da Receita Federal</h3>
+            <p class="bc-excerpt">O Conselho Administrativo de Recursos Fiscais é a segunda instância para contestar autuações. Saiba como estruturar um recurso eficaz e quais provas são determinantes.</p>
+            <div class="bc-footer">
+              <span>Kayo Melo Adv. · 12 Mai 2025</span>
+              <span class="bc-read">Ler <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ÁREAS DE ATUAÇÃO ======================================== -->
+  <section class="areas-sec" id="areas">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <div class="eyebrow">Especialidades</div>
+          <h2 class="section-title">Áreas de <em>Atuação</em></h2>
+        </div>
+      </div>
+      <div class="areas-wrap reveal">
+        <div class="areas-grid">
+          <div class="area-card">
+            <div class="area-num">01</div>
+            <div class="area-icon">🗺️</div>
+            <h3 class="area-title">Planejamento Tributário</h3>
+            <p class="area-desc">Estruturação fiscal estratégica para reduzir a carga tributária de forma legal. Elisão fiscal, reestruturação societária e aproveitamento de incentivos.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">02</div>
+            <div class="area-icon">🔄</div>
+            <h3 class="area-title">Recuperação de Créditos</h3>
+            <p class="area-desc">Identificação e recuperação de tributos pagos indevidamente ou a maior: PIS, COFINS, ICMS, IPI, IRPJ e CSLL dos últimos 5 anos.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">03</div>
+            <div class="area-icon">⚖️</div>
+            <h3 class="area-title">Defesa Fiscal</h3>
+            <p class="area-desc">Impugnação de autos de infração, recursos ao CARF e ações judiciais contra cobranças indevidas da Receita Federal, estadual e municipal.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">04</div>
+            <div class="area-icon">🏢</div>
+            <h3 class="area-title">Holding & Patrimônio</h3>
+            <p class="area-desc">Estruturação de holdings familiares e empresariais para proteção patrimonial e otimização fiscal em ITCMD, IRPF, ITBI e ganho de capital.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">05</div>
+            <div class="area-icon">📋</div>
+            <h3 class="area-title">Reforma Tributária</h3>
+            <p class="area-desc">Adequação das empresas ao novo sistema IVA Dual. Análise de impacto, revisão de contratos e planejamento para o período de transição 2026–2033.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">06</div>
+            <div class="area-icon">🤝</div>
+            <h3 class="area-title">Parcelamentos Fiscais</h3>
+            <p class="area-desc">Negociação e adesão a programas de parcelamento (REFIS, PERT, RELP) com máxima redução de multas, juros e encargos.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">07</div>
+            <div class="area-icon">🌐</div>
+            <h3 class="area-title">Tributação Internacional</h3>
+            <p class="area-desc">Planejamento fiscal para operações transfronteiriças, preços de transferência, acordos de bitributação e estruturas offshore.</p>
+          </div>
+          <div class="area-card">
+            <div class="area-num">08</div>
+            <div class="area-icon">💼</div>
+            <h3 class="area-title">Consultoria Empresarial</h3>
+            <p class="area-desc">Assessoria tributária contínua para empresas: revisão de obrigações acessórias, due diligence fiscal e suporte em M&A e reestruturações.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA — DIAGNÓSTICO FISCAL ================================ -->
+  <section class="calc-sec" id="contato">
+    <div class="container">
+      <div class="calc-box reveal">
+        <div>
+          <div class="calc-eyebrow">Diagnóstico Gratuito</div>
+          <h2 class="calc-title">Sua Empresa Pode<br/>Estar Pagando Impostos a Mais.</h2>
+          <p class="calc-desc">Em média, identificamos 18% de redução na carga tributária nas empresas que passam pelo nosso diagnóstico fiscal gratuito. Sem compromisso — analisamos sua situação e apontamos as oportunidades.</p>
+        </div>
+        <div class="calc-actions">
+          <a class="btn-primary" style="justify-content:center;"
+            href="https://wa.me/5500000000000?text=Olá!%20Quero%20fazer%20um%20diagnóstico%20fiscal%20gratuito."
+            target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Diagnóstico via WhatsApp
+          </a>
+          <button class="btn-outline" style="justify-content:center;">Agendar Reunião</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SOBRE =================================================== -->
+  <section class="about-sec" id="sobre">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-vis reveal">
+          <div class="about-portrait">
+            <svg width="175" height="175" viewBox="0 0 175 175" fill="none">
+              <rect x="10" y="10" width="155" height="155" rx="1"
+                    stroke="rgba(255,170,0,.08)" stroke-width="2"/>
+              <rect x="22" y="22" width="131" height="131" rx="1"
+                    stroke="rgba(255,170,0,.05)" stroke-width="1.5"/>
+              <path d="M42 48 L42 128 M42 88 L88 48 M42 88 L88 128"
+                    stroke="rgba(255,170,0,.35)" stroke-width="5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M96 128 L96 48 L133 88 L133 48"
+                    stroke="rgba(255,170,0,.35)" stroke-width="5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Símbolo % decorativo -->
+              <text x="55" y="118" font-family="serif" font-size="28" font-weight="900"
+                    fill="rgba(255,170,0,.14)">%</text>
+            </svg>
+          </div>
+          <div class="about-accent">
+            <span class="about-num">R$280M</span>
+            <span class="about-label">em créditos recuperados</span>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="eyebrow">Sobre a Área Tributária</div>
+          <h2 class="section-title">Kayo Melo <em>Tributário</em></h2>
+          <p class="about-bio">
+            A área tributária do escritório Kayo Melo Advogados combina profundo conhecimento técnico da legislação fiscal brasileira com uma visão estratégica de negócios. Atuamos tanto na defesa contenciosa quanto no planejamento preventivo.
+          </p>
+          <div class="about-creds">
+            <div class="cred">Mais de 12 anos de atuação exclusiva em Direito Tributário</div>
+            <div class="cred">R$ 280 milhões em créditos tributários recuperados para clientes</div>
+            <div class="cred">Especialistas certificados em Reforma Tributária e IVA Dual</div>
+            <div class="cred">Experiência em CARF, TIT-SP, TRF e STJ em matéria fiscal</div>
+            <div class="cred">Assessoria para empresas do Simples ao Lucro Real em todos os setores</div>
+          </div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button class="btn-primary">Diagnóstico Gratuito</button>
+            <button class="btn-outline">Nossa Equipe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- NEWSLETTER ============================================== -->
+  <section class="nl-sec">
+    <div class="container">
+      <div class="nl-box reveal">
+        <div class="eyebrow" style="justify-content:center;margin-bottom:.9rem;">Fique na Frente</div>
+        <h2 class="nl-title">Alertas Fiscais <em style="font-style:italic;color:var(--neo)">Exclusivos</em></h2>
+        <p class="nl-desc">Receba análises sobre a Reforma Tributária, novas decisões do CARF e oportunidades de recuperação de créditos antes dos seus concorrentes.</p>
+        <div class="nl-form">
+          <input class="nl-input" type="email" placeholder="E-mail da empresa…" />
+          <button class="btn-primary" id="subBtn">Inscrever-se</button>
+        </div>
+        <p style="margin-top:1rem;font-size:.7rem;color:var(--tm);">Conteúdo técnico, sem spam. Cancelamento a qualquer momento.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER ================================================== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <a href="#" class="nav-logo" style="display:inline-flex;margin-bottom:.75rem;">
+            <div class="km-mark">
+              <svg viewBox="0 0 42 42" fill="none">
+                <rect x="1" y="1" width="40" height="40" rx="1"
+                      stroke="currentColor" stroke-width="1.8" style="color:var(--t1)"/>
+                <rect x="5" y="5" width="32" height="32" rx=".5"
+                      stroke="currentColor" stroke-width=".8" style="color:var(--t1);opacity:.35"/>
+                <path d="M10 13 L10 29 M10 21 L18 13 M10 21 L18 29"
+                      stroke="currentColor" stroke-width="2.3"
+                      stroke-linecap="round" stroke-linejoin="round" style="color:var(--t1)"/>
+                <path d="M20 29 L20 13 L26 21 L32 13 L32 29"
+                      stroke="currentColor" stroke-width="2.3"
+                      stroke-linecap="round" stroke-linejoin="round" style="color:var(--t1)"/>
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-name">Kayo Melo</span>
+              <span class="logo-sub">Tributário</span>
+            </div>
+          </a>
+          <p class="fbrand">Especialistas em planejamento tributário, defesa fiscal e recuperação de créditos. Pague apenas o que a lei exige.</p>
+          <div class="fsocial">
+            <a class="fsoc" href="#" title="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a class="fsoc" href="#" title="LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a class="fsoc" href="#" title="YouTube">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="fcol-title">Navegação</div>
+          <ul class="flinks">
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#reforma">Reforma Tributária</a></li>
+            <li><a href="#artigos">Artigos</a></li>
+            <li><a href="#areas">Áreas de Atuação</a></li>
+            <li><a href="kayo-melo-advogados.html">Portal Jurídico</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="fcol-title">Especialidades</div>
+          <ul class="flinks">
+            <li><a href="#">Planejamento Tributário</a></li>
+            <li><a href="#">Reforma Tributária</a></li>
+            <li><a href="#">Recuperação de Créditos</a></li>
+            <li><a href="#">Defesa Fiscal / CARF</a></li>
+            <li><a href="#">Holding Familiar</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="fcol-title">Contato</div>
+          <ul class="flinks">
+            <li><a href="tel:+5500000000000">(00) 9 0000-0000</a></li>
+            <li><a href="mailto:tributario@kayomelo.adv.br">tributario@kayomelo.adv.br</a></li>
+            <li><a href="#">Brasil</a></li>
+            <li><a href="#">Seg–Sex · 8h–19h</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="fcopy">© 2025 Kayo Melo Advogados — Tributário. Todos os direitos reservados.</p>
+        <p class="fcopy">As informações deste site não constituem aconselhamento jurídico.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- BOTÕES FLUTUANTES ======================================= -->
+  <div class="float-wrap">
+    <a class="fbtn ft" href="https://t.me/kayomeloadvogados"
+       target="_blank" rel="noopener" data-label="Telegram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+      </svg>
+    </a>
+    <a class="fbtn fw"
+       href="https://wa.me/5500000000000?text=Olá!%20Gostaria%20de%20um%20diagnóstico%20fiscal%20gratuito%20para%20minha%20empresa."
+       target="_blank" rel="noopener" data-label="WhatsApp">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+      </svg>
+    </a>
+  </div>
+
+
+  <!-- JAVASCRIPT ============================================== -->
+  <script>
+    // THEME
+    const html  = document.documentElement;
+    const tBtn  = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('km-trib-theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    tBtn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('km-trib-theme', next);
+    });
+
+    // NAVBAR SCROLL
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', scrollY > 40);
+    }, { passive: true });
+
+    // MOBILE NAV
+    function toggleNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+
+    // SCROLL REVEAL
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const i = Array.from(e.target.parentElement.children).indexOf(e.target);
+        setTimeout(() => e.target.classList.add('visible'), Math.min(i * 90, 400));
+        obs.unobserve(e.target);
+      });
+    }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // NEWSLETTER
+    document.getElementById('subBtn').addEventListener('click', function () {
+      const inp = document.querySelector('.nl-input');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value.trim())) {
+        inp.style.borderColor = '#e05a5a';
+        inp.focus();
+        setTimeout(() => inp.style.borderColor = '', 2000);
+        return;
+      }
+      this.textContent = '✓ Inscrito!';
+      this.style.background = '#8a6820';
+      inp.value = ''; inp.disabled = true; this.disabled = true;
+      setTimeout(() => {
+        this.textContent = 'Inscrever-se'; this.style.background = '';
+        inp.disabled = false; this.disabled = false;
+      }, 4000);
+    });
+
+    // SMOOTH ANCHORS
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        if (id === '#') return;
+        const t = document.querySelector(id);
+        if (t) {
+          e.preventDefault();
+          window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 72, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 3-D CARD HOVER
+    document.querySelectorAll('.blog-card').forEach(c => {
+      c.addEventListener('mousemove', e => {
+        const r = c.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  - .5) * 7;
+        const y = ((e.clientY - r.top)  / r.height - .5) * 7;
+        c.style.transform = `translateY(-6px) rotateX(${-y}deg) rotateY(${x}deg)`;
+      });
+      c.addEventListener('mouseleave', () => c.style.transform = '');
+    });
+
+    // METRIC CARD HOVER — slide efeito
+    document.querySelectorAll('.metric-card').forEach(c => {
+      c.addEventListener('mouseenter', () => c.style.borderColor = 'rgba(255,170,0,.35)');
+      c.addEventListener('mouseleave', () => c.style.borderColor = '');
+    });
+
+    // TIMELINE DOTS — pulse on scroll
+    const tlObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animation = 'none';
+          e.target.offsetHeight; // reflow
+          e.target.style.animation = 'tlPulse .6s ease forwards';
+        }
+      });
+    }, { threshold: .8 });
+    document.querySelectorAll('.tl-dot').forEach(d => tlObs.observe(d));
+  </script>
+
+  <style>
+    @keyframes tlPulse {
+      0%  { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,170,0,.6); }
+      50% { transform: scale(1.4); box-shadow: 0 0 0 8px rgba(255,170,0,0); }
+      100%{ transform: scale(1); box-shadow: 0 0 0 0 rgba(255,170,0,0); }
+    }
+  </style>
+
+</body>
+</html>
