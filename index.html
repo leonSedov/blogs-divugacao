@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otimizador de Conteúdo</title>
+    <title>Otimizador de Conteúdo Multi-Blog</title>
     <style>
         * {
             margin: 0;
@@ -65,7 +65,7 @@
             font-size: 1.1rem;
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 1rem;
             border: 2px solid #e0e0e0;
@@ -73,17 +73,13 @@
             font-size: 1rem;
             transition: border-color 0.3s, box-shadow 0.3s;
             line-height: 1.5;
+            background-color: #fff;
         }
 
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: #bdc3c7;
-            font-style: italic;
         }
 
         textarea {
@@ -128,26 +124,9 @@
             display: none;
         }
 
-        .status-message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-
-        .status-message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        .status-message.info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-            display: block;
-        }
+        .status-message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; display: block; }
+        .status-message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; display: block; }
+        .status-message.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; display: block; }
 
         .footer {
             margin-top: 2rem;
@@ -155,32 +134,22 @@
             color: #95a5a6;
             font-size: 0.9rem;
         }
-
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🧠 Otimizador de Conteúdo</h1>
-        <div class="subtitle">Transforme suas ideias em artigos completos com IA</div>
+        <div class="subtitle">Selecione o blog e transforme ideias em artigos</div>
 
-        <!-- Novo campo para URL da imagem de capa -->
+        <div class="form-group">
+            <label for="blog-destino">🏢 Escolha o Blog de Destino:</label>
+            <select id="blog-destino">
+                <option value="saude">Direito da Saúde</option>
+                <option value="previdenciario">Direito Previdenciário</option>
+                <option value="tributario">Direito Tributário</option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label for="imagem-url">🖼️ URL da Imagem de Capa:</label>
             <input type="text" id="imagem-url" placeholder="Ex: https://exemplo.com/imagem.jpg" />
@@ -188,15 +157,15 @@
 
         <div class="form-group">
             <label for="texto">📝 Digite seu texto base:</label>
-            <textarea id="texto" placeholder="Ex: ideias sobre marketing digital, dicas de produtividade, ou qualquer tópico que queira transformar em um artigo..."></textarea>
+            <textarea id="texto" placeholder="Ex: ideias sobre o tema escolhido para transformar em artigo..."></textarea>
         </div>
 
-        <button id="enviarBtn">🚀 Enviar para geração do artigo</button>
+        <button id="enviarBtn">🚀 Enviar para Geração</button>
 
         <div id="status" class="status-message"></div>
 
         <div class="footer">
-            ⚡ O texto será enviado para IA e você receberá um artigo otimizado em breve.
+            ⚡ O texto será enviado para o fluxo n8n do blog selecionado.
         </div>
     </div>
 
@@ -204,103 +173,69 @@
         document.addEventListener('DOMContentLoaded', function() {
             const textoTextarea = document.getElementById('texto');
             const imagemUrlInput = document.getElementById('imagem-url');
+            const blogSelect = document.getElementById('blog-destino');
             const enviarBtn = document.getElementById('enviarBtn');
             const statusDiv = document.getElementById('status');
 
-            // Webhook URL
-            const webhookUrl = 'https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook-test/blog';
+            // Mapeamento de URLs dos Webhooks
+            const webhookUrls = {
+                'saude': 'https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook-test/blog',
+                'previdenciario': 'https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook-test/blog-previdenciario',
+                'tributario': 'https://tyrannisingly-mesorrhine-anaya.ngrok-free.dev/webhook-test/blog-tributario'
+            };
 
-            // Função para exibir mensagem de status
             function showMessage(message, type) {
                 statusDiv.textContent = message;
-                statusDiv.className = 'status-message ' + type; // success, error, info
+                statusDiv.className = 'status-message ' + type;
             }
 
-            // Função para limpar mensagem
-            function clearMessage() {
-                statusDiv.textContent = '';
-                statusDiv.className = 'status-message';
-            }
-
-            // Função para validar se o texto não está vazio
-            function isValidText(text) {
-                return text && text.trim().length > 0;
-            }
-
-            // Evento de clique no botão
             enviarBtn.addEventListener('click', async function() {
                 const texto = textoTextarea.value;
                 const imagemUrl = imagemUrlInput.value;
+                const selectedBlog = blogSelect.value;
+                const activeWebhook = webhookUrls[selectedBlog];
 
-                // Validação
-                if (!isValidText(texto)) {
+                if (!texto || texto.trim().length === 0) {
                     showMessage('Por favor, digite algum texto antes de enviar.', 'error');
                     return;
                 }
 
-                // Desabilitar botão e mostrar status de envio
                 enviarBtn.disabled = true;
-                showMessage('Enviando texto para o otimizador... Aguarde.', 'info');
+                showMessage(`Enviando para o blog ${selectedBlog.toUpperCase()}... Aguarde.`, 'info');
 
-                // Preparar payload conforme especificação: { "texto": "...", "imagem_manual": "..." }
                 const payload = {
                     texto: texto,
-                    imagem_manual: imagemUrl
+                    imagem_manual: imagemUrl,
+                    blog_origem: selectedBlog
                 };
 
                 try {
-                    // Enviar requisição POST para o webhook
-                    const response = await fetch(webhookUrl, {
+                    const response = await fetch(activeWebhook, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
 
-                    // Verificar se a resposta foi bem-sucedida
                     if (response.ok) {
-                        // Tenta ler o corpo da resposta se houver, mas não é obrigatório
-                        let responseData = null;
-                        const contentType = response.headers.get('content-type');
-                        if (contentType && contentType.includes('application/json')) {
-                            responseData = await response.json();
-                        } else {
-                            responseData = await response.text();
-                        }
-
-                        showMessage('✅ Texto enviado com sucesso! A IA está gerando seu artigo. Você será redirecionado/notificado em breve (conforme fluxo do n8n).', 'success');
-                        console.log('Resposta do webhook:', responseData);
+                        showMessage(`✅ Sucesso! O artigo para ${selectedBlog.toUpperCase()} está sendo gerado.`, 'success');
+                        textoTextarea.value = '';
+                        imagemUrlInput.value = '';
                     } else {
-                        // Se a resposta não for ok, exibir erro com status
                         const errorText = await response.text();
-                        showMessage(`❌ Erro ao enviar: ${response.status} - ${response.statusText}. Detalhes: ${errorText}`, 'error');
-                        console.error('Erro no webhook:', response.status, errorText);
+                        showMessage(`❌ Erro no servidor: ${response.status}.`, 'error');
                     }
                 } catch (error) {
-                    // Erro de rede ou CORS
-                    console.error('Erro na requisição:', error);
-                    showMessage(`❌ Falha na conexão com o servidor. Verifique sua internet ou se o webhook está acessível. Detalhes: ${error.message}`, 'error');
+                    showMessage(`❌ Falha de conexão. Verifique se o n8n está online.`, 'error');
                 } finally {
-                    // Reabilitar o botão após um pequeno atraso para evitar spam
-                    setTimeout(() => {
-                        enviarBtn.disabled = false;
-                    }, 2000); // 2 segundos de cooldown
+                    setTimeout(() => { enviarBtn.disabled = false; }, 2000);
                 }
             });
 
-            // Permitir enviar com Ctrl+Enter (atalho)
+            // Atalho Ctrl+Enter
             textoTextarea.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                     e.preventDefault();
                     enviarBtn.click();
-                }
-            });
-
-            // Limpar mensagem de erro quando começar a digitar (opcional)
-            textoTextarea.addEventListener('input', function() {
-                if (statusDiv.classList.contains('error')) {
-                    clearMessage();
                 }
             });
         });
